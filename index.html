@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.tiny.cloud/1/q7go9bw65n7vivg0eqma3q3bse26xt8zjydt4kw1uqb8f6ee/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <h1>TinyMCE Quick Start Guide</h1>
+        <form method="post">
+            <textarea id="mytextarea" name="mytextarea">Hello, World!</textarea>
+        </form>
+
+        <h1 class="display-4 mt-5">Подключение</h1>
+        <div class="panel">
+            <pre>
+                <code>
+                    &lt;script src="path/tinymce-settings.js"&gt;&lt;/script&gt;
+                    &lt;script&gt;
+                        $('textarea_id').tinymce({
+                            ...
+                            menu: {
+                                tc: {
+                                    title: 'TinyComments',
+                                    items: 'addcomment showcomments deleteallconversations '
+                                },
+                                blocks: {
+                                    title: "Блоки",
+                                    items: 'blocks'
+                                }
+                            },
+                            menubar: 'file edit view insert format tools table tc help blocks',
+                            setup: (editor) => {
+                                editor.ui.registry.addMenuItem('blocks', {
+                                    text: 'Вставить список товаров',
+                                    onAction: () => OnDialogButtonPressed(editor);
+                                });
+                            }
+                            ...
+                        });
+                    &lt;/script&gt;
+                </code>
+            </pre>
+        </div>
+
+        <h2 class="display-4 mt-5">Настройка и изменение надписей в окне</h2>
+        <div class="panel">
+            <p>Редактируется в файле <code>tiny-settings.js</code></p>
+            <pre>
+                <code>
+                        params = {
+                            DialogTitle: string,
+
+                            // Кнопки в диалоге
+                            Buttons: {
+                                // Текст на главной кнопке
+                                PrimaryLabel: string,
+
+                                // Текст на кнопке отмены
+                                CancelLabel: string
+                            },
+
+                            // Вкладки
+                            Tabs: {
+                                GeneralTitle: string,
+                                ProductsTitle: string,
+                                AdditionalsTitle: string
+                            },
+
+                            // Здесь указываются начальные значения полей (опционально, можно оставить пустым) 
+                            initData: {
+                                input_name: "value"
+                            }
+                        }
+                </code>
+            </pre>
+        </div>
+
+        <script src="js/tinymce-setings.js"></script>
+
+        <script>
+            tinymce.init({
+                selector: '#mytextarea',
+                menu: {
+                    tc: {
+                        title: 'TinyComments',
+                        items: 'addcomment showcomments deleteallconversations '
+                    },
+                    blocks: {
+                        title: "Блоки",
+                        items: 'blocks'
+                    }
+                },
+                menubar: 'file edit view insert format tools table tc help blocks',
+                toolbar: ' undo redo | fullscreen  preview save code | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist checklist | fontselect fontsizeselect formatselect| forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons  | insertfile image media myfilemanager   hotengineaddpruductlist | pageembed link anchor codesample | a11ycheck ltr rtl | showcomments addcomment  | cut copy paste pastetext pasteword  search replace | print',
+                plugins: 'print preview importcss  searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount  imagetools textpattern noneditable help charmap quickbars emoticons code pageembed',
+
+                setup: (editor) => {
+                    editor.ui.registry.addMenuItem('blocks', {
+                        text: 'Вставить список товаров',
+                        onAction: () => alert('Menu item clicked')
+                    });
+                }
+            });
+        </script>
+</body>
+
+</html>

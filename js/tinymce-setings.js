@@ -374,11 +374,8 @@
     function openDialog(t) {
         var tmc = t.activeEditor.dom.get('tinymce');
         var w = tmc.querySelectorAll('#inlineMenuData');
-        console.log(w)
 
         w.forEach(function(e, i, a) {
-            console.log(e)
-            console.log(i)
             e.addEventListener('click', function(e) {
                 var item = e.currentTarget;
                 var options = item.getAttribute('data-options');

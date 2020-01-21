@@ -291,15 +291,19 @@
         // On Click to Main Button
         onSubmit: function(api) {
             var data = api.getData();
-
-            // Prepare message
+            var site = (
+                    cat_page_producer_extend != null && cat_page_producer_extend != undefined && cat_page_producer_extend != '' ?
+                    cat_page_producer_extend :
+                    (data.site != '' ? ':site-' + data.site : '')
+                )
+                // Prepare message
             let message = `[MENU${
-
+                
                 // General section output
                 (data.id != '' ? ':' + data.id : '') +
                 (data.cat_id != '' ? ':cat_id-' + data.cat_id : '') + 
                 (data.pers_cat_id != '' ? ':pers_cat_id-' + data.pers_cat_id : '') + 
-                (data.site != '' ? ':site-' + data.site : '') +
+                site +
                 (data.collection != '' ? ':collection-' + data.collection : '') +
                 (data.on_page != '' ? ':on_page-' + data.on_page : '') +
                 (data.start != '' ? ':start-' + data.start : '') +

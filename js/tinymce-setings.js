@@ -24,7 +24,7 @@
 
     const manualTabItem = [{
         type: 'htmlpanel',
-        html: '<h3>И</p>'
+        html: '<h3>Инструкция</p>'
 
     }];
 

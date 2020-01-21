@@ -20,8 +20,9 @@
             initData: {
                 cat_id: "1"
             }
-        }
+        };
 
+    // Manual Tab Content
     const manualTabItem = [{
         type: 'htmlpanel',
         html: '<h3>Инструкция</p>'

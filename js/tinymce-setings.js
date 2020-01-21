@@ -267,7 +267,7 @@
             tabs: [{
                     name: "manual",
                     title: params.Tabs.ManualTitle,
-                    items: generalTabItems
+                    items: manualTabItem
                 },
                 {
                     name: "general",

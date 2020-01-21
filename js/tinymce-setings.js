@@ -12,6 +12,7 @@
                 CancelLabel: "Отмена"
             },
             Tabs: {
+                ManualTitle: "Инструкция",
                 GeneralTitle: "Основное",
                 ProductsTitle: "Продукты",
                 AdditionalsTitle: "Дополнительно"
@@ -20,6 +21,12 @@
                 cat_id: "1"
             }
         }
+
+    const manualTabItem = [{
+        type: 'htmlpanel',
+        html: '<h3>И</p>'
+
+    }];
 
     // General Tab Content
     const generalTabItems = [{
@@ -258,6 +265,11 @@
         body: {
             type: 'tabpanel',
             tabs: [{
+                    name: "manual",
+                    title: params.Tabs.ManualTitle,
+                    items: generalTabItems
+                },
+                {
                     name: "general",
                     title: params.Tabs.GeneralTitle,
                     items: generalTabItems
@@ -291,6 +303,7 @@
         // On Click to Main Button
         onSubmit: function(api) {
             var data = api.getData();
+            var cat_page_producer_extend = $(".cat_page_producer_extend").val();
             var site = (
                     cat_page_producer_extend != null && cat_page_producer_extend != undefined && cat_page_producer_extend != '' ?
                     cat_page_producer_extend :

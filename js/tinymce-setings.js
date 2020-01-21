@@ -24,7 +24,7 @@
                 AdditionalsTitle: "Дополнительно"
             },
             initData: {
-                site: cat_page_producer_extend.toString()
+                site: site_id.toString()
             }
         };
 

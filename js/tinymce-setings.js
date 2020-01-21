@@ -4,6 +4,12 @@
         finishMessage = "",
         addOnCancel = false,
 
+        cat_page_producer_extend = $(".cat_page_producer_extend").val(),
+        site_id = (
+            cat_page_producer_extend != null && cat_page_producer_extend != undefined && cat_page_producer_extend != '' ?
+            cat_page_producer_extend : ''
+        ),
+
         // Labels and headers for controls.
         params = {
             DialogTitle: "Вставить список товаров",
@@ -18,15 +24,15 @@
                 AdditionalsTitle: "Дополнительно"
             },
             initData: {
-                cat_id: "1"
+                site: cat_page_producer_extend.toString()
             }
         };
+
 
     // Manual Tab Content
     const manualTabItem = [{
         type: 'htmlpanel',
         html: '<h3>Инструкция</p>'
-
     }];
 
     // General Tab Content
@@ -304,20 +310,15 @@
         // On Click to Main Button
         onSubmit: function(api) {
             var data = api.getData();
-            var cat_page_producer_extend = $(".cat_page_producer_extend").val();
-            var site = (
-                    cat_page_producer_extend != null && cat_page_producer_extend != undefined && cat_page_producer_extend != '' ?
-                    cat_page_producer_extend :
-                    (data.site != '' ? ':site-' + data.site : '')
-                )
-                // Prepare message
+
+            // Prepare message
             let message = `[MENU${
                 
                 // General section output
                 (data.id != '' ? ':' + data.id : '') +
                 (data.cat_id != '' ? ':cat_id-' + data.cat_id : '') + 
                 (data.pers_cat_id != '' ? ':pers_cat_id-' + data.pers_cat_id : '') + 
-                site +
+                (data.site != '' ? ':site-' + data.site : '') +
                 (data.collection != '' ? ':collection-' + data.collection : '') +
                 (data.on_page != '' ? ':on_page-' + data.on_page : '') +
                 (data.start != '' ? ':start-' + data.start : '') +

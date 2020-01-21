@@ -376,8 +376,8 @@
         var w = tmc.querySelectorAll('#inlineMenuData');
 
         w.forEach(function(e, i, a) {
-            e.addEventListener('click', function(e) {
-                var item = e.currentTarget;
+            e.addEventListener('click', function(elem) {
+                var item = elem.currentTarget;
                 var options = item.getAttribute('data-options');
                 t.activeEditor.windowManager.open(dialogConfig).setData(JSON.parse(options));
                 item.remove();

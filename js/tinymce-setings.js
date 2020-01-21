@@ -372,12 +372,19 @@
 
     // Open Dialog by click on text
     function openDialog(t) {
-        var w = t.activeEditor.dom.get('inlineMenuData');
-        w.addEventListener('click', function(e) {
-            var item = e.currentTarget;
-            var options = item.getAttribute('data-options');
-            t.activeEditor.windowManager.open(dialogConfig).setData(JSON.parse(options));
-            item.remove();
-            addOnCancel = true;
-        })
+        var tmc = t.activeEditor.dom.get('tinymce');
+        var w = tmc.querySelectorAll('#inlineMenuData');
+        console.log(w)
+
+        w.forEach(function(e, i, a) {
+            console.log(e)
+            console.log(i)
+            e.addEventListener('click', function(e) {
+                var item = e.currentTarget;
+                var options = item.getAttribute('data-options');
+                t.activeEditor.windowManager.open(dialogConfig).setData(JSON.parse(options));
+                item.remove();
+                addOnCancel = true;
+            });
+        });
     }

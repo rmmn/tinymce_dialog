@@ -16,6 +16,7 @@
         <h1>TinyMCE Quick Start Guide</h1>
         <form method="post">
             <textarea id="mytextarea" name="mytextarea">Hello, World!</textarea>
+            <textarea id="mytextarea2" name="mytextarea">Hello, World!</textarea>
         </form>
 
         <h1 class="display-4 mt-5">Подключение</h1>
@@ -88,6 +89,30 @@
         <script>
             tinymce.init({
                 selector: '#mytextarea',
+                menu: {
+                    tc: {
+                        title: 'TinyComments',
+                        items: 'addcomment showcomments deleteallconversations '
+                    },
+                    blocks: {
+                        title: "Блоки",
+                        items: 'blocks'
+                    }
+                },
+                menubar: 'file edit view insert format tools table tc help blocks',
+                toolbar: ' undo redo | fullscreen  preview save code | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist checklist | fontselect fontsizeselect formatselect| forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons  | insertfile image media myfilemanager   hotengineaddpruductlist | pageembed link anchor codesample | a11ycheck ltr rtl | showcomments addcomment  | cut copy paste pastetext pasteword  search replace | print',
+                plugins: 'print preview importcss  searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount  imagetools textpattern noneditable help charmap quickbars emoticons code pageembed',
+
+                setup: (editor) => {
+                    editor.ui.registry.addMenuItem('blocks', {
+                        text: 'Вставить список товаров',
+                        onAction: () => OnDialogButtonPressed(editor)
+                    });
+                }
+            });
+
+            tinymce.init({
+                selector: '#mytextarea2',
                 menu: {
                     tc: {
                         title: 'TinyComments',

@@ -350,11 +350,13 @@
                 (data.search != '' ? ':search-' + data.search : '') +
                 (data.lang != '' ? ':lang-' + data.lang : '') +
                 (data.lazy ? ':lazy' : '')
-              }]`;
+              }]’;
+            var randomID = getRandomArbitrary(0, 1000);
+
 
             // Write data on global variable
             options = data;
-            finishMessage = ` <span id="inlineMenuData" data-options='${JSON.stringify(data).toString()}' style="padding: 2px 4px; background-color: #f1f1f1; border-radius: 3px; ">${message}</span> `;
+            finishMessage = ` <span id="inlineMenuData" data-id="ID-${randomID}" data-options='${JSON.stringify(data).toString()}' style="padding: 2px 4px; background-color: #f1f1f1; border-radius: 3px; ">${message}</span> `;
 
             // Add message to editor
             tinymce.activeEditor.execCommand(
@@ -362,7 +364,7 @@
                 false,
                 finishMessage
             );
-            openDialog(tinymce);
+            openDialog(tinymce, randomID);
             api.close();
         },
         onCancel: (api) => {
@@ -389,18 +391,23 @@
         }
     }
 
-    // Open Dialog by click on text
-    function openDialog(t) {
-        var tmc = t.activeEditor.dom.get('tinymce');
-        var w = tmc.querySelectorAll('#inlineMenuData');
+    function getRandomArbitrary(min, max) {
+       return Math.random() * (max - min) + min;
+    }
 
-        w.forEach(function(e, i, a) {
-            e.addEventListener('click', function(elem) {
+    // Open Dialog by click on text
+    function openDialog(t, randomID) {
+        var rID = "ID-" + randomID;
+        var tmc = t.activeEditor.dom.get('tinymce');
+        var w = tmc.querySelector(‘#inlineMenuData[data-id="${rID}"]‘);
+
+        
+            w.addEventListener('click', function(elem) {
                 var item = elem.currentTarget;
                 var options = item.getAttribute('data-options');
                 t.activeEditor.windowManager.open(dialogConfig).setData(JSON.parse(options));
                 item.remove();
                 addOnCancel = true;
             });
-        });
+        
     }

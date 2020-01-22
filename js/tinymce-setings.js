@@ -29,7 +29,8 @@ let editorInstance = null,
         },
         initData: {
             site: site_id.toString(),
-            id: "shop_products_slider"
+            id: "shop_products_slider",
+            on_page: "3"
         }
     };
 
@@ -362,7 +363,7 @@ let dialogConfig = {
         options = data;
 
         rawMessage = message;
-        finishMessage = ` <span class="inlineMenuData" id="ID-${randomID}" data-options='${JSON.stringify(data).toString()}' style="padding: 2px 4px; background-color: #f1f1f1; border-radius: 3px; ">[MENU${message}]</span> `;
+        finishMessage = `<span class="inlineMenuData" id="ID-${randomID}" data-options='${JSON.stringify(data).toString()}' style="padding: 2px 4px; background-color: #f1f1f1; border-radius: 3px; margin: 0 3px">[MENU${message}]</span>`;
 
         // Add message to editor
         tinymce.activeEditor.execCommand(
@@ -370,6 +371,8 @@ let dialogConfig = {
             false,
             finishMessage
         );
+
+
         t = tinymce;
         openDialog(tinymce, randomID);
         api.close();
@@ -382,7 +385,7 @@ let dialogConfig = {
             t.activeEditor.execCommand(
                 'mceInsertContent',
                 false,
-                ` <span class="inlineMenuData" id="ID-${r}" data-options='${JSON.stringify(options).toString()}' style="padding: 2px 4px; background-color: #f1f1f1; border-radius: 3px; ">[MENU${rawMessage}]</span> `
+                `<span class="inlineMenuData" id="ID-${r}" data-options='${JSON.stringify(options).toString()}' style="padding: 2px 4px; background-color: #f1f1f1; border-radius: 3px; margin: 0 3px">[MENU${rawMessage}]</span>`
             );
             addOnCancel = false;
         }
@@ -394,12 +397,14 @@ let dialogConfig = {
     }
 };
 
+
 //TyniMCE Setup
 function OnDialogButtonPressed(editor) {
+    editorInstance = editor;
     if (Object.entries(options).length === 0 && options.constructor === Object) {
-        editorInstance = editor.windowManager.open(dialogConfig);
+        editor.windowManager.open(dialogConfig);
     } else {
-        editorInstance = editor.windowManager.open(dialogConfig).setData(options);
+        editor.windowManager.open(dialogConfig).setData(options);
     }
 }
 
@@ -471,12 +476,12 @@ function loadContent(params, paramsString) {
         type: "GET",
         url: uri
     }).done(function(responseText) {
-        //$('.visualItemsAjax').append(responseText);
+        $('.visualItemsAjax').append(responseText);
 
-        tinymce.activeEditor.execCommand(
-            'mceInsertContent',
-            false,
-            responseText
-        );
+        // tinymce.activeEditor.execCommand(
+        //     'mceInsertContent',
+        //     false,
+        //     `<div class="items-preview">${responseText}</div>`
+        // );
     });
 }

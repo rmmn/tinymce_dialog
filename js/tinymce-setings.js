@@ -469,16 +469,14 @@ function loadContent(params, paramsString) {
 
     $.ajax({
         type: "GET",
-        xhrFields: {
-            withCredentials: true
-        },
-        crossDomain: true,
-        url: uri,
-        headers: {
-            "accept": "text/html",
-            "Access-Control-Allow-Origin": "*"
-        }
+        url: uri
     }).done(function(responseText) {
-        $('.visualItemsAjax').html(responseText);
+        //$('.visualItemsAjax').append(responseText);
+
+        tinymce.activeEditor.execCommand(
+            'mceInsertContent',
+            false,
+            responseText
+        );
     });
 }

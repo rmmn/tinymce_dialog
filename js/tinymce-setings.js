@@ -401,7 +401,7 @@
     function openDialog(t, randomID = 0) {
         var rID = "ID-" + randomID;
         var tmc = t.activeEditor.dom.get('tinymce');
-        var w = tmc.querySelector(‘#inlineMenuData[data-id="${rID}"]‘);
+        var w = tmc.querySelector(’#inlineMenuData[data-id="${rID}"]’);
 
         
             w.addEventListener('click', function(elem) {

@@ -385,7 +385,7 @@ let dialogConfig = {
             t.activeEditor.execCommand(
                 'mceInsertContent',
                 false,
-                `<span class="inlineMenuData" id="ID-${r}" data-options='${JSON.stringify(options).toString()}' style="padding: 2px 4px; background-color: #f1f1f1; border-radius: 3px; margin: 0 3px">[MENU${rawMessage}]</span>`
+                `<!--MENU_INLINE_START--><span class="inlineMenuData" id="ID-${r}" data-options='${JSON.stringify(options).toString()}' style="padding: 2px 4px; background-color: #f1f1f1; border-radius: 3px; margin: 0 3px">[MENU${rawMessage}]</span><!--MENU_INLINE_END-->`
             );
             addOnCancel = false;
         }

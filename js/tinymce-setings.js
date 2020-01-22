@@ -351,7 +351,7 @@
                 (data.lang != '' ? ':lang-' + data.lang : '') +
                 (data.lazy ? ':lazy' : '')
               }]’;
-            var randomID = getRandomArbitrary(0, 1000);
+            var randomID = getRandomInt(0, 1000);
 
 
             // Write data on global variable
@@ -391,12 +391,14 @@
         }
     }
 
-    function getRandomArbitrary(min, max) {
-       return Math.random() * (max - min) + min;
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
     }
 
     // Open Dialog by click on text
-    function openDialog(t, randomID) {
+    function openDialog(t, randomID = 0) {
         var rID = "ID-" + randomID;
         var tmc = t.activeEditor.dom.get('tinymce');
         var w = tmc.querySelector(‘#inlineMenuData[data-id="${rID}"]‘);

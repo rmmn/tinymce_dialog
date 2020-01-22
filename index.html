@@ -35,13 +35,21 @@
                                 blocks: {
                                     title: "Блоки",
                                     items: 'blocks'
+                                },
+                                visualization: {
+                                    title: "Визуализация",
+                                    items: 'visual'
                                 }
                             },
-                            menubar: 'file edit view insert format tools table tc help blocks',
+                            menubar: 'file edit view insert format tools table tc help blocks visualization',
                             setup: (editor) => {
                                 editor.ui.registry.addMenuItem('blocks', {
                                     text: 'Вставить список товаров',
                                     onAction: () => OnDialogButtonPressed(editor)
+                                });
+                                editor.ui.registry.addMenuItem('visual', {
+                                    text: 'Показать пример списка',
+                                    onAction: () => OnVisualizationPressed(editor)
                                 });
                             }
                             ...
@@ -58,7 +66,7 @@
                 <code>
                         params = {
                             DialogTitle: string,
-
+                            VizualizationTitle: string,
                             // Кнопки в диалоге
                             Buttons: {
                                 // Текст на главной кнопке

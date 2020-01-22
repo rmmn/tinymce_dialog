@@ -16,6 +16,7 @@ let editorInstance = null,
     // Labels and headers for controls.
     params = {
         DialogTitle: "Вставить список товаров",
+        VizualizationTitle: "Пример списка",
         Buttons: {
             PrimaryLabel: "Вставить и закрыть",
             CancelLabel: "Отмена"
@@ -433,7 +434,7 @@ function openDialog(tm, randomID = 0) {
 
 // Config Dialog and Data
 let visualDialogConfig = {
-    title: params.DialogTitle,
+    title: params.VizualizationTitle,
     body: {
         type: 'panel',
         items: [ // A list of panel components
@@ -466,24 +467,6 @@ function OnVisualizationPressed(editor) {
 function loadContent(params, paramsString) {
     let uri = `https://jabra-shop.com/codes/shop/template_menu_generator.php?ajax&j=shop_products_slider&c=${(params.site != null && params.site != '' && params.site != undefined? params.site : '0')}&n=${(params.on_page == null || params.on_page == undefined && params.on_page == "" ? "0" : params.on_page)}&param=${paramsString}`;
 
-    // fetch(uri, {
-    //     mode: 'no-cors',
-    //     headers: {
-    //         'Access-Control-Allow-Origin': '*'
-    //     }
-    // }).then(function(response) {
-    //     return response.text()
-    // }).then(function(response) {
-    //     //var container = document.querySelector('.visualItemsAjax').html = data;
-    //     var parser = new DOMParser();
-
-    //     // Parse the text
-    //     var doc = parser.parseFromString(response, "text/html");
-    //     console.log(response);
-    // }).catch(function(response) {
-    //     console.log(response)
-    // });
-
     $.ajax({
         type: "GET",
         xhrFields: {
@@ -497,7 +480,5 @@ function loadContent(params, paramsString) {
         }
     }).done(function(responseText) {
         $('.visualItemsAjax').html(responseText);
-    })
-
-
+    });
 }

@@ -97,9 +97,13 @@
                     blocks: {
                         title: "Блоки",
                         items: 'blocks'
+                    },
+                    visualization: {
+                        title: "Визуализация",
+                        items: 'visual'
                     }
                 },
-                menubar: 'file edit view insert format tools table tc help blocks',
+                menubar: 'file edit view insert format tools table tc help blocks visualization',
                 toolbar: ' undo redo | fullscreen  preview save code | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist checklist | fontselect fontsizeselect formatselect| forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons  | insertfile image media myfilemanager   hotengineaddpruductlist | pageembed link anchor codesample | a11ycheck ltr rtl | showcomments addcomment  | cut copy paste pastetext pasteword  search replace | print',
                 plugins: 'print preview importcss  searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount  imagetools textpattern noneditable help charmap quickbars emoticons code pageembed',
 
@@ -107,6 +111,10 @@
                     editor.ui.registry.addMenuItem('blocks', {
                         text: 'Вставить список товаров',
                         onAction: () => OnDialogButtonPressed(editor)
+                    });
+                    editor.ui.registry.addMenuItem('visual', {
+                        text: 'Показать пример списка',
+                        onAction: () => OnVisualizationPressed(editor)
                     });
                 }
             });
@@ -121,9 +129,13 @@
                     blocks: {
                         title: "Блоки",
                         items: 'blocks'
+                    },
+                    visualization: {
+                        title: "Визуализация",
+                        items: 'visual'
                     }
                 },
-                menubar: 'file edit view insert format tools table tc help blocks',
+                menubar: 'file edit view insert format tools table tc help blocks visualization',
                 toolbar: ' undo redo | fullscreen  preview save code | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist checklist | fontselect fontsizeselect formatselect| forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons  | insertfile image media myfilemanager   hotengineaddpruductlist | pageembed link anchor codesample | a11ycheck ltr rtl | showcomments addcomment  | cut copy paste pastetext pasteword  search replace | print',
                 plugins: 'print preview importcss  searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount  imagetools textpattern noneditable help charmap quickbars emoticons code pageembed',
 
@@ -131,6 +143,10 @@
                     editor.ui.registry.addMenuItem('blocks', {
                         text: 'Вставить список товаров',
                         onAction: () => OnDialogButtonPressed(editor)
+                    });
+                    editor.ui.registry.addMenuItem('visual', {
+                        text: 'Показать пример списка',
+                        onAction: () => OnVisualizationPressed(editor)
                     });
                 }
             });

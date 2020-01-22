@@ -27,7 +27,8 @@ let editorInstance = null,
             AdditionalsTitle: "Дополнительно"
         },
         initData: {
-            site: site_id.toString()
+            site: site_id.toString(),
+            id: "shop_products_slider"
         }
     };
 
@@ -316,7 +317,7 @@ let dialogConfig = {
         var randomID = getRandomInt(0, 1000);
         currentRandom = randomID;
         // Prepare message
-        let message = `[MENU${
+        let message = `${
         
         // General section output
         (data.id != '' ? ':' + data.id : '') +
@@ -354,13 +355,13 @@ let dialogConfig = {
         (data.search != '' ? ':search-' + data.search : '') +
         (data.lang != '' ? ':lang-' + data.lang : '') +
         (data.lazy ? ':lazy' : '')
-      }]`;
+      }`;
 
         // Write data on global variable
         options = data;
 
         rawMessage = message;
-        finishMessage = ` <span class="inlineMenuData" id="ID-${randomID}" data-options='${JSON.stringify(data).toString()}' style="padding: 2px 4px; background-color: #f1f1f1; border-radius: 3px; ">${message}</span> `;
+        finishMessage = ` <span class="inlineMenuData" id="ID-${randomID}" data-options='${JSON.stringify(data).toString()}' style="padding: 2px 4px; background-color: #f1f1f1; border-radius: 3px; ">[MENU${message}]</span> `;
 
         // Add message to editor
         tinymce.activeEditor.execCommand(
@@ -380,13 +381,13 @@ let dialogConfig = {
             t.activeEditor.execCommand(
                 'mceInsertContent',
                 false,
-                ` <span class="inlineMenuData" id="ID-${r}" data-options='${JSON.stringify(options).toString()}' style="padding: 2px 4px; background-color: #f1f1f1; border-radius: 3px; ">${rawMessage}</span> `
+                ` <span class="inlineMenuData" id="ID-${r}" data-options='${JSON.stringify(options).toString()}' style="padding: 2px 4px; background-color: #f1f1f1; border-radius: 3px; ">[MENU${rawMessage}]</span> `
             );
             addOnCancel = false;
         }
 
 
-        openDialog(t, r);
+        openDialog(tinymce, r);
 
         api.close();
     }
@@ -411,7 +412,8 @@ function openDialog(tm, randomID = 0) {
         var rID = "ID-" + randomID;
         var tmc = tm.activeEditor.dom.get('tinymce');
         var w = tmc.querySelector(`#${rID}`);
-        console.log(w)
+
+        if (w == null) return;
 
         w.addEventListener('click', function(elem) {
             addOnCancel = true;
@@ -422,5 +424,80 @@ function openDialog(tm, randomID = 0) {
             item.remove();
         });
     }
+
+}
+
+//
+// Vizualization
+//
+
+// Config Dialog and Data
+let visualDialogConfig = {
+    title: params.DialogTitle,
+    body: {
+        type: 'panel',
+        items: [ // A list of panel components
+            {
+                type: 'htmlpanel', // A HTML panel component
+                html: '<div class="visualItemsAjax"></div>'
+            }
+        ]
+    },
+    buttons: [{
+        type: 'cancel',
+        name: 'closeButton',
+        text: params.Buttons.CancelLabel
+    }],
+    initialData: params.initData,
+    onCancel: (api) => {
+        api.close();
+    }
+};
+
+function OnVisualizationPressed(editor) {
+    if (Object.entries(options).length === 0 && options.constructor === Object) {
+        editorInstance = editor.windowManager.open(dialogConfig);
+    } else {
+        editor.windowManager.open(visualDialogConfig);
+        loadContent(options, rawMessage);
+    }
+}
+
+function loadContent(params, paramsString) {
+    let uri = `https://jabra-shop.com/codes/shop/template_menu_generator.php?ajax&j=shop_products_slider&c=${(params.site != null && params.site != '' && params.site != undefined? params.site : '0')}&n=${(params.on_page == null || params.on_page == undefined && params.on_page == "" ? "0" : params.on_page)}&param=${paramsString}`;
+
+    // fetch(uri, {
+    //     mode: 'no-cors',
+    //     headers: {
+    //         'Access-Control-Allow-Origin': '*'
+    //     }
+    // }).then(function(response) {
+    //     return response.text()
+    // }).then(function(response) {
+    //     //var container = document.querySelector('.visualItemsAjax').html = data;
+    //     var parser = new DOMParser();
+
+    //     // Parse the text
+    //     var doc = parser.parseFromString(response, "text/html");
+    //     console.log(response);
+    // }).catch(function(response) {
+    //     console.log(response)
+    // });
+
+    $.ajax({
+        type: "GET",
+        xhrFields: {
+            withCredentials: true
+        },
+        crossDomain: true,
+        url: uri,
+        headers: {
+            "accept": "text/html",
+            "Access-Control-Allow-Origin": "*"
+        }
+    }).done(function(responseText) {
+        $('.visualItemsAjax').html(responseText);
+    })
+
 
 }

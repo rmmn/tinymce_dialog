@@ -1,8 +1,10 @@
     let editorInstance = null,
         editorTextarea = document.getElementById('mytextarea'),
         options = {},
+        once = false,
         finishMessage = "",
         addOnCancel = false,
+        currentRandom = 0,
 
         cat_page_producer_extend = $(".cat_page_producer_extend").val(),
         site_id = (
@@ -310,7 +312,8 @@
         // On Click to Main Button
         onSubmit: function(api) {
             var data = api.getData();
-
+            var randomID = getRandomInt(0, 1000);
+            currentRandom = randomID;
             // Prepare message
             let message = `[MENU${
                 
@@ -354,7 +357,8 @@
 
             // Write data on global variable
             options = data;
-            finishMessage = ` <span id="inlineMenuData" data-options='${JSON.stringify(data).toString()}' style="padding: 2px 4px; background-color: #f1f1f1; border-radius: 3px; ">${message}</span> `;
+
+            finishMessage = ` <span class="inlineMenuData" id="ID-${randomID}" data-options='${JSON.stringify(data).toString()}' style="padding: 2px 4px; background-color: #f1f1f1; border-radius: 3px; ">${message}</span> `;
 
             // Add message to editor
             tinymce.activeEditor.execCommand(
@@ -362,7 +366,8 @@
                 false,
                 finishMessage
             );
-            openDialog(tinymce);
+            t = tinymce;
+            openDialog(tinymce, randomID);
             api.close();
         },
         onCancel: (api) => {
@@ -373,7 +378,6 @@
                     false,
                     finishMessage
                 );
-                openDialog(tinymce);
                 addOnCancel = false;
             }
             api.close();
@@ -389,18 +393,24 @@
         }
     }
 
-    // Open Dialog by click on text
-    function openDialog(t) {
-        var tmc = t.activeEditor.dom.get('tinymce');
-        var w = tmc.querySelectorAll('#inlineMenuData');
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
+    }
 
-        w.forEach(function(e, i, a) {
-            e.addEventListener('click', function(elem) {
-                var item = elem.currentTarget;
-                var options = item.getAttribute('data-options');
-                t.activeEditor.windowManager.open(dialogConfig).setData(JSON.parse(options));
-                item.remove();
-                addOnCancel = true;
-            });
+    // Open Dialog by click on text
+    function openDialog(t, randomID = 0) {
+        var rID = "ID-" + randomID;
+        var tmc = t.activeEditor.dom.get('tinymce');
+        var w = tmc.querySelector(`#${rID}`);
+
+
+        w.addEventListener('click', function(elem) {
+            var item = elem.currentTarget;
+            var options = item.getAttribute('data-options');
+            t.activeEditor.windowManager.open(dialogConfig).setData(JSON.parse(options));
+            currentRandom = item.getAttribute('id').split('-')[1];
+            item.remove();
+            addOnCancel = true;
         });
+
     }

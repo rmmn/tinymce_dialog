@@ -1,7 +1,8 @@
 let editorInstance = null,
+    t = null,
     editorTextarea = document.getElementById('mytextarea'),
     options = {},
-    once = false,
+    rawMessage = null,
     finishMessage = "",
     addOnCancel = false,
     currentRandom = 0,
@@ -358,6 +359,7 @@ let dialogConfig = {
         // Write data on global variable
         options = data;
 
+        rawMessage = message;
         finishMessage = ` <span class="inlineMenuData" id="ID-${randomID}" data-options='${JSON.stringify(data).toString()}' style="padding: 2px 4px; background-color: #f1f1f1; border-radius: 3px; ">${message}</span> `;
 
         // Add message to editor
@@ -371,15 +373,21 @@ let dialogConfig = {
         api.close();
     },
     onCancel: (api) => {
+
+        var r = getRandomInt(0, 1000);
         if (addOnCancel) {
             // Add message to editor
-            tinymce.activeEditor.execCommand(
+            t.activeEditor.execCommand(
                 'mceInsertContent',
                 false,
-                finishMessage
+                ` <span class="inlineMenuData" id="ID-${r}" data-options='${JSON.stringify(options).toString()}' style="padding: 2px 4px; background-color: #f1f1f1; border-radius: 3px; ">${rawMessage}</span> `
             );
             addOnCancel = false;
         }
+
+
+        openDialog(t, r);
+
         api.close();
     }
 };
@@ -398,19 +406,21 @@ function getRandomInt(min, max) {
 }
 
 // Open Dialog by click on text
-function openDialog(t, randomID = 0) {
-    var rID = "ID-" + randomID;
-    var tmc = t.activeEditor.dom.get('tinymce');
-    var w = tmc.querySelector(`#${rID}`);
+function openDialog(tm, randomID = 0) {
+    if (randomID != 0) {
+        var rID = "ID-" + randomID;
+        var tmc = tm.activeEditor.dom.get('tinymce');
+        var w = tmc.querySelector(`#${rID}`);
+        console.log(w)
 
-
-    w.addEventListener('click', function(elem) {
-        var item = elem.currentTarget;
-        var options = item.getAttribute('data-options');
-        t.activeEditor.windowManager.open(dialogConfig).setData(JSON.parse(options));
-        currentRandom = item.getAttribute('id').split('-')[1];
-        item.remove();
-        addOnCancel = true;
-    });
+        w.addEventListener('click', function(elem) {
+            addOnCancel = true;
+            var item = elem.currentTarget;
+            var options = item.getAttribute('data-options');
+            t.activeEditor.windowManager.open(dialogConfig).setData(JSON.parse(options));
+            currentRandom = item.getAttribute('id').split('-')[1];
+            item.remove();
+        });
+    }
 
 }

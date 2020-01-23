@@ -363,7 +363,7 @@ let dialogConfig = {
         options = data;
 
         rawMessage = message;
-        finishMessage = `<span class="inlineMenuData" id="ID-${randomID}" data-options='${JSON.stringify(data).toString()}' style="padding: 2px 4px; background-color: #f1f1f1; border-radius: 3px; margin: 0 3px">[MENU${message}]</span>`;
+        finishMessage = `[MENU${message}]`;
 
         // Add message to editor
         tinymce.activeEditor.execCommand(
@@ -372,29 +372,11 @@ let dialogConfig = {
             finishMessage
         );
 
-
         t = tinymce;
-        openDialog(tinymce, randomID);
+
         api.close();
     },
     onCancel: (api) => {
-
-        var r = getRandomInt(0, 1000);
-        if (addOnCancel) {
-            // Add message to editor
-            t.activeEditor.execCommand(
-                'mceInsertContent',
-                false,
-                `<!--MENU_INLINE_START-->
-                <span class="inlineMenuData" id="ID-${r}" data-options='${JSON.stringify(options).toString()}' style="padding: 2px 4px; background-color: #f1f1f1; border-radius: 3px; margin: 0 3px">[MENU${rawMessage}]</span>
-                <!--MENU_INLINE_END-->`
-            );
-            addOnCancel = false;
-        }
-
-
-        openDialog(tinymce, r);
-
         api.close();
     }
 };
@@ -412,27 +394,6 @@ function OnDialogButtonPressed(editor) {
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
-}
-
-// Open Dialog by click on text
-function openDialog(tm, randomID = 0) {
-    if (randomID != 0) {
-        var rID = "ID-" + randomID;
-        var tmc = tm.activeEditor.dom.get('tinymce');
-        var w = tmc.querySelector(`#${rID}`);
-
-        if (w == null) return;
-
-        w.addEventListener('click', function(elem) {
-            addOnCancel = true;
-            var item = elem.currentTarget;
-            var options = item.getAttribute('data-options');
-            t.activeEditor.windowManager.open(dialogConfig).setData(JSON.parse(options));
-            currentRandom = item.getAttribute('id').split('-')[1];
-            item.remove();
-        });
-    }
-
 }
 
 //
@@ -462,21 +423,51 @@ let visualDialogConfig = {
     }
 };
 
+function checkMenuExists() {
+    var editorContent = editorInstance.getContent();
+
+    var matches = editorContent.match(/(\[MENU.*\])/g);
+
+    console.log(matches);
+
+    if (matches == null)
+        return false;
+    else
+        return true;
+}
+
+function getUriFromMenuLine() {
+    var editorContent = editorInstance.getContent();
+    var matches = editorContent.match(/(\[MENU.*\])/g);
+
+    let uri = `https://jabra-shop.com/codes/shop/template_menu_generator.php?ajax&j=shop_products_slider&c=${(params.site != null && params.site != '' && params.site != undefined? params.site : '0')}&n=${(params.on_page == null || params.on_page == undefined && params.on_page == "" ? "0" : params.on_page)}&param=${(Array.isArray(matches) ? matches[0] : matches).replace('[MENU', '').replace(']', '')}`;
+
+
+    return uri;
+}
+
 function OnVisualizationPressed(editor) {
-    if (Object.entries(options).length === 0 && options.constructor === Object) {
-        editorInstance = editor.windowManager.open(dialogConfig);
-    } else {
+    editorInstance = editor;
+    console.log(checkMenuExists())
+    if (checkMenuExists()) {
         editor.windowManager.open(visualDialogConfig);
-        loadContent(options, rawMessage);
+        loadContent(options, rawMessage, getUriFromMenuLine());
+    } else {
+        if (Object.entries(options).length === 0 && options.constructor === Object) {
+            editor.windowManager.open(dialogConfig);
+        } else {
+            editor.windowManager.open(visualDialogConfig);
+            loadContent(options, rawMessage);
+        }
     }
 }
 
-function loadContent(params, paramsString) {
+function loadContent(params, paramsString, url = null) {
     let uri = `https://jabra-shop.com/codes/shop/template_menu_generator.php?ajax&j=shop_products_slider&c=${(params.site != null && params.site != '' && params.site != undefined? params.site : '0')}&n=${(params.on_page == null || params.on_page == undefined && params.on_page == "" ? "0" : params.on_page)}&param=${paramsString}`;
 
     $.ajax({
         type: "GET",
-        url: uri
+        url: url == null ? uri : url
     }).done(function(responseText) {
         $('.visualItemsAjax').append(responseText);
 

@@ -428,8 +428,6 @@ function checkMenuExists() {
 
     var matches = editorContent.match(/(\[MENU.*\])/g);
 
-    console.log(matches);
-
     if (matches == null)
         return false;
     else
@@ -441,8 +439,6 @@ function getUriFromMenuLine() {
     var matches = editorContent.match(/(\[MENU.*\])/g);
 
     let uri = `https://jabra-shop.com/codes/shop/template_menu_generator.php?ajax&j=shop_products_slider&c=${(params.site != null && params.site != '' && params.site != undefined? params.site : '0')}&n=${(params.on_page == null || params.on_page == undefined && params.on_page == "" ? "0" : params.on_page)}&param=${(Array.isArray(matches) ? matches[0] : matches).replace('[MENU', '').replace(']', '')}`;
-
-
     return uri;
 }
 

@@ -444,17 +444,17 @@ function getUriFromMenuLine() {
 
 function OnVisualizationPressed(editor) {
     editorInstance = editor;
-    console.log(checkMenuExists())
-    if (checkMenuExists()) {
+
+    if (checkMenuExists() && Object.entries(options).length !== 0) {
+        tinymce.activeEditor.execCommand('mcePreview');
+        loadContentIntoIframe(options, rawMessage, null, '.tox-navobj');
+        console.log('dialog')
+    } else if (checkMenuExists() == true && Object.entries(options).length === 0) {
         tinymce.activeEditor.execCommand('mcePreview');
         loadContentIntoIframe(options, rawMessage, getUriFromMenuLine(), '.tox-navobj');
+        console.log('string')
     } else {
-        if (Object.entries(options).length === 0 && options.constructor === Object) {
-            editor.windowManager.open(dialogConfig);
-        } else {
-            tinymce.activeEditor.execCommand('mcePreview');
-            loadContentIntoIframe(options, rawMessage, null, '.tox-navobj');
-        }
+        editor.windowManager.open(dialogConfig);
     }
 }
 
@@ -482,11 +482,11 @@ function loadContentIntoIframe(params, paramsString, url = null, container = ".v
 
 function previewClick(event, editor) {
     editorInstance = editor;
-    if (checkMenuExists()) {
+    if (checkMenuExists() && Object.entries(options).length !== 0) {
+        loadContentIntoIframe(options, rawMessage, null, '.tox-navobj');
+    } else if (checkMenuExists() == true && Object.entries(options).length === 0) {
         loadContentIntoIframe(options, rawMessage, getUriFromMenuLine(), '.tox-navobj');
     } else {
-        if (Object.entries(options).length !== 0) {
-            loadContentIntoIframe(options, rawMessage, null, '.tox-navobj');
-        }
+        return;
     }
 }

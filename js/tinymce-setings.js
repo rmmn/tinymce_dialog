@@ -476,10 +476,14 @@ function loadContentIntoIframe(params, paramsString, url = null, container = ".v
         type: "GET",
         url: url == null ? uri : url
     }).done(function(responseText) {
+        $(container).find('iframe').contents().find('#tinymce').html('');
         var editorContent = editorInstance.getContent();
         var matches = editorContent.match(/(\[MENU.*\])/g);
-        var html = editorContent.replace(/(\[MENU.*\])/, `${matches} ${responseText}`);
-        $(container).find('iframe').contents().find('#tinymce').find('p').html(html);
+        var text = $(container).find('iframe').contents().find('#tinymce').html();
+
+        
+        var html = editorContent.replace(/(\[MENU.*\])/, `${matches + responseText}`);
+        $(container).find('iframe').contents().find('#tinymce').html(html);
     });
 }
 

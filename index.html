@@ -37,11 +37,7 @@
                                 },
                                 blocks: {
                                     title: "Блоки",
-                                    items: 'blocks'
-                                },
-                                visualization: {
-                                    title: "Визуализация",
-                                    items: 'visual'
+                                    items: 'blocks visual'
                                 }
                             },
                             menubar: 'file edit view insert format tools table tc help blocks visualization',
@@ -53,6 +49,11 @@
                                 editor.ui.registry.addMenuItem('visual', {
                                     text: 'Показать пример списка',
                                     onAction: () => OnVisualizationPressed(editor)
+                                });
+                            },
+                            init_instance_callback: function(editor) {
+                                $('.tox-tbtn').on('click', function(event) {
+                                    previewClick(event, editor);
                                 });
                             }
                             ...
@@ -101,7 +102,7 @@
 
         <script>
             tinymce.init({
-                selector: '#mytextarea',
+                selector: '#mytextarea2',
                 mode: 'none',
                 schema: "html5",
                 menu: {
@@ -111,14 +112,10 @@
                     },
                     blocks: {
                         title: "Блоки",
-                        items: 'blocks'
-                    },
-                    visualization: {
-                        title: "Визуализация",
-                        items: 'visual'
+                        items: 'blocks visual'
                     }
                 },
-                menubar: 'file edit view insert format tools table tc help blocks visualization',
+                menubar: 'file edit view insert format tools table tc help blocks',
                 toolbar: ' undo redo | fullscreen  preview save code | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist checklist | fontselect fontsizeselect formatselect| forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons  | insertfile image media myfilemanager   hotengineaddpruductlist | pageembed link anchor codesample | a11ycheck ltr rtl | showcomments addcomment  | cut copy paste pastetext pasteword  search replace | print',
                 plugins: 'print preview  importcss  searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount  imagetools textpattern noneditable help charmap quickbars emoticons code save pageembed',
                 setup: (editor) => {
@@ -130,11 +127,28 @@
                         text: 'Показать пример списка',
                         onAction: () => OnVisualizationPressed(editor)
                     });
+
+                    editor.on('init', function(e) {
+                        var el = document.querySelector('.tox-tbtn');
+
+                        el.addEventListener('click', function(event) {
+                            console.log(event);
+
+                            loadContentIntoIframe(options, paramsString, '.tox-navobj')
+                        });
+                    });
+                },
+                init_instance_callback: function(editor) {
+                    $('.tox-tbtn').on('click', function(event) {
+                        previewClick(event, editor);
+                    });
                 }
             });
 
             tinymce.init({
-                selector: '#mytextarea2',
+                selector: '#mytextarea',
+                mode: 'none',
+                schema: "html5",
                 menu: {
                     tc: {
                         title: 'TinyComments',
@@ -142,17 +156,12 @@
                     },
                     blocks: {
                         title: "Блоки",
-                        items: 'blocks'
-                    },
-                    visualization: {
-                        title: "Визуализация",
-                        items: 'visual'
+                        items: 'blocks visual'
                     }
                 },
-                menubar: 'file edit view insert format tools table tc help blocks visualization',
+                menubar: 'file edit view insert format tools table tc help blocks',
                 toolbar: ' undo redo | fullscreen  preview save code | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist checklist | fontselect fontsizeselect formatselect| forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons  | insertfile image media myfilemanager   hotengineaddpruductlist | pageembed link anchor codesample | a11ycheck ltr rtl | showcomments addcomment  | cut copy paste pastetext pasteword  search replace | print',
-                plugins: 'print preview importcss  searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount  imagetools textpattern noneditable help charmap quickbars emoticons code pageembed',
-
+                plugins: 'print preview  importcss  searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount  imagetools textpattern noneditable help charmap quickbars emoticons code save pageembed',
                 setup: (editor) => {
                     editor.ui.registry.addMenuItem('blocks', {
                         text: 'Вставить список товаров',
@@ -161,6 +170,21 @@
                     editor.ui.registry.addMenuItem('visual', {
                         text: 'Показать пример списка',
                         onAction: () => OnVisualizationPressed(editor)
+                    });
+
+                    editor.on('init', function(e) {
+                        var el = document.querySelector('.tox-tbtn');
+
+                        el.addEventListener('click', function(event) {
+                            console.log(event);
+
+                            loadContentIntoIframe(options, paramsString, '.tox-navobj')
+                        });
+                    });
+                },
+                init_instance_callback: function(editor) {
+                    $('.tox-tbtn').on('click', function(event) {
+                        previewClick(event, editor);
                     });
                 }
             });

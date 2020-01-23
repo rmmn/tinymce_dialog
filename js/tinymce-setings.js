@@ -450,31 +450,47 @@ function OnVisualizationPressed(editor) {
     editorInstance = editor;
     console.log(checkMenuExists())
     if (checkMenuExists()) {
-        editor.windowManager.open(visualDialogConfig);
-        loadContent(options, rawMessage, getUriFromMenuLine());
+        tinymce.activeEditor.execCommand('mcePreview');
+        loadContentIntoIframe(options, rawMessage, getUriFromMenuLine(), '.tox-navobj');
     } else {
         if (Object.entries(options).length === 0 && options.constructor === Object) {
             editor.windowManager.open(dialogConfig);
         } else {
-            editor.windowManager.open(visualDialogConfig);
-            loadContent(options, rawMessage);
+            tinymce.activeEditor.execCommand('mcePreview');
+            loadContentIntoIframe(options, rawMessage, null, '.tox-navobj');
         }
     }
 }
 
-function loadContent(params, paramsString, url = null) {
+function loadContent(params, paramsString, url = null, container = ".visualItemsAjax") {
     let uri = `https://jabra-shop.com/codes/shop/template_menu_generator.php?ajax&j=shop_products_slider&c=${(params.site != null && params.site != '' && params.site != undefined? params.site : '0')}&n=${(params.on_page == null || params.on_page == undefined && params.on_page == "" ? "0" : params.on_page)}&param=${paramsString}`;
 
     $.ajax({
         type: "GET",
         url: url == null ? uri : url
     }).done(function(responseText) {
-        $('.visualItemsAjax').append(responseText);
-
-        // tinymce.activeEditor.execCommand(
-        //     'mceInsertContent',
-        //     false,
-        //     `<div class="items-preview">${responseText}</div>`
-        // );
+        $(container).append(responseText);
     });
+}
+
+function loadContentIntoIframe(params, paramsString, url = null, container = ".visualItemsAjax") {
+    let uri = `https://jabra-shop.com/codes/shop/template_menu_generator.php?ajax&j=shop_products_slider&c=${(params.site != null && params.site != '' && params.site != undefined? params.site : '0')}&n=${(params.on_page == null || params.on_page == undefined && params.on_page == "" ? "0" : params.on_page)}&param=${paramsString}`;
+
+    $.ajax({
+        type: "GET",
+        url: url == null ? uri : url
+    }).done(function(responseText) {
+        $(container).find('iframe').contents().find('#tinymce').append(responseText);
+    });
+}
+
+function previewClick(event, editor) {
+    editorInstance = editor;
+    if (checkMenuExists()) {
+        loadContentIntoIframe(options, rawMessage, getUriFromMenuLine(), '.tox-navobj');
+    } else {
+        if (Object.entries(options).length !== 0) {
+            loadContentIntoIframe(options, rawMessage, null, '.tox-navobj');
+        }
+    }
 }

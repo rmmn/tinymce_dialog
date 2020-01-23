@@ -363,7 +363,7 @@ let dialogConfig = {
         options = data;
 
         rawMessage = message;
-        finishMessage = `[MENU${message}]`;
+        finishMessage = ` [MENU${message}] `;
 
         // Add message to editor
         tinymce.activeEditor.execCommand(

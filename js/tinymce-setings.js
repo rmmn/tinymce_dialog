@@ -448,11 +448,9 @@ function OnVisualizationPressed(editor) {
     if (checkMenuExists() && Object.entries(options).length !== 0) {
         tinymce.activeEditor.execCommand('mcePreview');
         loadContentIntoIframe(options, rawMessage, null, '.tox-navobj');
-        console.log('dialog')
     } else if (checkMenuExists() == true && Object.entries(options).length === 0) {
         tinymce.activeEditor.execCommand('mcePreview');
         loadContentIntoIframe(options, rawMessage, getUriFromMenuLine(), '.tox-navobj');
-        console.log('string')
     } else {
         editor.windowManager.open(dialogConfig);
     }
@@ -479,8 +477,6 @@ function loadContentIntoIframe(params, paramsString, url = null, container = ".v
         $(container).find('iframe').contents().find('#tinymce').html('');
         var editorContent = editorInstance.getContent();
         var matches = editorContent.match(/(\[MENU.*\])/g);
-        var text = $(container).find('iframe').contents().find('#tinymce').html();
-
         
         var html = editorContent.replace(/(\[MENU.*\])/, `${matches + responseText}`);
         $(container).find('iframe').contents().find('#tinymce').html(html);

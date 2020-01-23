@@ -127,16 +127,6 @@
                         text: 'Показать пример списка',
                         onAction: () => OnVisualizationPressed(editor)
                     });
-
-                    editor.on('init', function(e) {
-                        var el = document.querySelector('.tox-tbtn');
-
-                        el.addEventListener('click', function(event) {
-                            console.log(event);
-
-                            loadContentIntoIframe(options, paramsString, '.tox-navobj')
-                        });
-                    });
                 },
                 init_instance_callback: function(editor) {
                     $('.tox-tbtn').on('click', function(event) {
@@ -170,16 +160,6 @@
                     editor.ui.registry.addMenuItem('visual', {
                         text: 'Показать пример списка',
                         onAction: () => OnVisualizationPressed(editor)
-                    });
-
-                    editor.on('init', function(e) {
-                        var el = document.querySelector('.tox-tbtn');
-
-                        el.addEventListener('click', function(event) {
-                            console.log(event);
-
-                            loadContentIntoIframe(options, paramsString, '.tox-navobj')
-                        });
                     });
                 },
                 init_instance_callback: function(editor) {

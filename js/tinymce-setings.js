@@ -438,7 +438,7 @@ function getUriFromMenuLine() {
     var editorContent = editorInstance.getContent();
     var matches = editorContent.match(/(\[MENU:shop_products_slider.*\])/g);
 
-    let uri = `https://jabra-shop.com/codes/shop/template_menu_generator.php?ajax&j=shop_products_slider&c=${(params.site != null && params.site != '' && params.site != undefined ? params.site : '0')}&n=${(params.on_page == null || params.on_page == undefined && params.on_page == "" ? "0" : params.on_page)}&param=${(Array.isArray(matches) ? matches[0] : matches).replace('[MENU', '').replace(']', '')}`;
+    let uri = `${window.location.protocol}//${window.location.host}/codes/shop/template_menu_generator.php?ajax&j=shop_products_slider&c=${(params.site != null && params.site != '' && params.site != undefined ? params.site : '0')}&n=${(params.on_page == null || params.on_page == undefined && params.on_page == "" ? "0" : params.on_page)}&param=${(Array.isArray(matches) ? matches[0] : matches).replace('[MENU', '').replace(']', '')}`;
     return uri;
 }
 
@@ -457,7 +457,7 @@ function OnVisualizationPressed(editor) {
 }
 
 function loadContent(params, paramsString, url = null, container = ".visualItemsAjax") {
-    let uri = `https://jabra-shop.com/codes/shop/template_menu_generator.php?ajax&j=shop_products_slider&c=${(params.site != null && params.site != '' && params.site != undefined ? params.site : '0')}&n=${(params.on_page == null || params.on_page == undefined && params.on_page == "" ? "0" : params.on_page)}&param=${paramsString}`;
+    let uri = `${window.location.protocol}//${window.location.host}/codes/shop/template_menu_generator.php?ajax&j=shop_products_slider&c=${(params.site != null && params.site != '' && params.site != undefined ? params.site : '0')}&n=${(params.on_page == null || params.on_page == undefined && params.on_page == "" ? "0" : params.on_page)}&param=${paramsString}`;
 
     $.ajax({
         type: "GET",
@@ -468,7 +468,7 @@ function loadContent(params, paramsString, url = null, container = ".visualItems
 }
 
 function loadContentIntoIframe(params, paramsString, url = null, container = ".visualItemsAjax") {
-    let uri = `https://jabra-shop.com/codes/shop/template_menu_generator.php?ajax&j=shop_products_slider&c=${(params.site != null && params.site != '' && params.site != undefined ? params.site : '0')}&n=${(params.on_page == null || params.on_page == undefined && params.on_page == "" ? "0" : params.on_page)}&param=${paramsString}`;
+    let uri = `${window.location.protocol}//${window.location.host}/codes/shop/template_menu_generator.php?ajax&j=shop_products_slider&c=${(params.site != null && params.site != '' && params.site != undefined ? params.site : '0')}&n=${(params.on_page == null || params.on_page == undefined && params.on_page == "" ? "0" : params.on_page)}&param=${paramsString}`;
 
     $.ajax({
         type: "GET",
